@@ -1,14 +1,6 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>welcome to this site with info for all your xenoblade builds</h1>
+@extends('layouts.web')
+@section('title', 'home')
 
-</body>
-</html>
+@section('content')
+    <h1>welcome {{$name}}, on this site with infos, there will be more</h1>
+@endsection
