@@ -21,7 +21,8 @@ class BuildController extends Controller
     public function index()
     {
         //
-        return view('builds.index');
+        $builds = Build::all();
+        return view('builds.index', compact('builds'));
     }
 
     /**
@@ -46,6 +47,8 @@ class BuildController extends Controller
     public function show(Build $build)
     {
         //
+        $buildDetails = Build::find($build->id);
+        return view('builds.show', compact('buildDetails'));
     }
 
     /**
