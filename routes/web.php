@@ -19,8 +19,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home/{name}', [HomeController::class, 'Index']);
+Route::get('/home/{name}', [HomeController::class, 'Index'])->name('home')->middleware("verified");
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('builds', \App\Http\Controllers\BuildController::class,);
+Route::resource('characters', \App\Http\Controllers\CharacterController::class,);
 
 Auth::routes();
+Auth::routes(['verify'=>true]);

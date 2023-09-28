@@ -3,16 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Build;
+use App\Models\Character;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
 class BuildController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //
+        return view('builds.index');
     }
 
     /**
@@ -62,4 +71,5 @@ class BuildController extends Controller
     {
         //
     }
+
 }
