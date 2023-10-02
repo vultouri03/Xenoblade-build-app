@@ -31,6 +31,7 @@ class BuildController extends Controller
     public function create()
     {
         //
+        return view('builds.create');
     }
 
     /**
@@ -38,7 +39,13 @@ class BuildController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+            'hero' => 'required|max:255',
+        ]);
+        Build::create($request->all());
+        return redirect()->route('builds.index');
+
     }
 
     /**
@@ -57,6 +64,9 @@ class BuildController extends Controller
     public function edit(Build $build)
     {
         //
+        $editBuild = Build::find($build->id);
+        return view('builds.update', compact('editBuild'));
+
     }
 
     /**
@@ -65,6 +75,12 @@ class BuildController extends Controller
     public function update(Request $request, Build $build)
     {
         //
+        $request->validate([
+            'name' => 'required|max:255',
+            'hero' => 'required|max:255',
+        ]);
+        Build::update($request->all());
+        return redirect()->route('builds.index');
     }
 
     /**
@@ -73,6 +89,10 @@ class BuildController extends Controller
     public function destroy(Build $build)
     {
         //
+        $toBeDeleted = Build::find($build->id);
+        $toBeDeleted->delete();
+        return redirect()->route('builds.index');
+
     }
 
 }
