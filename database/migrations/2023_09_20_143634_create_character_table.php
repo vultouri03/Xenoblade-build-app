@@ -11,16 +11,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('character', function (Blueprint $table) {
+        Schema::create('characters', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
             $table->timestamps();
             $table->string('class');
-            $table->text('gems');
+            $table->text('gem_1');
+            $table->text('gem_2');
+            $table->text('gem_3');
             $table->integer('level');
-            $table->text('accessories');
-            $table->text('arts');
-            $table->text('skills');
+            $table->text('accessory_1');
+            $table->text('accessory_2');
+            $table->text('accessory_3');
+            $table->text('art_1');
+            $table->text('art_2');
+            $table->text('art_3');
+            $table->text('master_art_1');
+            $table->text('master_art_2');
+            $table->text('master_art_3');
+            $table->text('master_skill_1');
+            $table->text('master_skill_2');
+            $table->text('master_skill_3');
             $table->bigInteger('build_id');
         });
     }
@@ -30,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('character');
+        Schema::dropIfExists('characters');
     }
 };

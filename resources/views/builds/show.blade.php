@@ -1,11 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <ul>
-        <li>{{$buildDetails->id}}</li>
-        <li>{{$buildDetails->name}}</li>
-        <li>{{$buildDetails->created_at}}</li>
-        <li>{{$buildDetails->updated_at}}</li>
-        <li>{{$buildDetails->hero}}</li>
+    <ul class="list-group">
+        <li class="list-group-item">{{$buildDetails->name}}</li>
+        <li class="list-group-item">{{$buildDetails->created_at}}</li>
+        <li class="list-group-item">{{$buildDetails->updated_at}}</li>
+        <li class="list-group-item">{{$buildDetails->hero}}</li>
+        <li class="list-group-item">{{$buildDetails->user->name}}</li>
+        @foreach($characters as $character)
+            <li class="list-group-item">{{$character->name}}</li>
+        @endforeach
+
     </ul>
 @endsection

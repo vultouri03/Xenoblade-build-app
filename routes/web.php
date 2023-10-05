@@ -20,9 +20,11 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [HomeController::class, 'Index'])->name('home')->middleware("verified");
+Route::get('/mybuilds', [\App\Http\Controllers\BuildController::class, 'myIndex'])->name('mybuilds');
 
 Route::resource('builds', \App\Http\Controllers\BuildController::class,);
-Route::resource('characters', \App\Http\Controllers\CharacterController::class,);
+Route::resource('characters', \App\Http\Controllers\CharacterController::class,)->except('create');
+Route::get('characters/create/{buildId}', [\App\Http\Controllers\CharacterController::class, 'Create'])->name('characters.create');
 
 Auth::routes();
 Auth::routes(['verify'=>true]);

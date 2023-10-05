@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Build;
 use App\Models\Character;
 use Illuminate\Http\Request;
 
@@ -13,14 +14,18 @@ class CharacterController extends Controller
     public function index()
     {
         //
+        $characters = Character::all();
+        return view('characters.index', compact('characters'));
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(int $build)
     {
         //
+        return view('characters.create', compact('build'));
     }
 
     /**

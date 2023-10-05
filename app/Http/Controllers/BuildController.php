@@ -20,7 +20,9 @@ class BuildController extends Controller
      */
     public function index()
     {
+
         //
+
         $builds = Build::all();
         return view('builds.index', compact('builds'));
     }
@@ -55,7 +57,8 @@ class BuildController extends Controller
     {
         //
         $buildDetails = Build::find($build->id);
-        return view('builds.show', compact('buildDetails'));
+        $characters = Build::find($build->id)->characters;
+        return view('builds.show', compact('buildDetails', 'characters'));
     }
 
     /**
@@ -94,5 +97,11 @@ class BuildController extends Controller
         return redirect()->route('builds.index');
 
     }
+
+    public function myIndex() {
+        $builds = Build::where('user_id', '=', \Auth::user()->id)->get();
+        return view('builds.index', compact('builds'));
+    }
+
 
 }
