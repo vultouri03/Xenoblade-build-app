@@ -61,6 +61,20 @@
                             </div>
                         </div>
 
+                        <input type="hidden" name="is_admin" id="is_admin"
+                               @if(\App\Models\User::count() === 0)
+                            value="1"
+                             @else
+                                 value="0"
+                                 @endif
+                        >
+                        @error('is_admin')
+                        <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                        @enderror
+
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

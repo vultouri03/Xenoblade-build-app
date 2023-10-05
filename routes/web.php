@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home/{name}', [HomeController::class, 'Index'])->name('home')->middleware("verified");
+Route::get('/home', [HomeController::class, 'Index'])->name('home')->middleware("verified");
 
 Route::resource('builds', \App\Http\Controllers\BuildController::class,);
 Route::resource('characters', \App\Http\Controllers\CharacterController::class,);

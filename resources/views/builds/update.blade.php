@@ -7,6 +7,7 @@
         <h3>Add a build</h3>
     <form method="post" action="{{route('builds.update', $build->id)}}">
         @csrf
+        @method('PUT')
     <div class="form-control">
         <label for="name">Build Name</label>
             <input type="text" id="name" name="name" class="form-control" required>
