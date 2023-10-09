@@ -5,7 +5,7 @@
 
     <div class="container h-100 mt-5">
         <h3>Add a build</h3>
-    <form method="post" action="{{route('builds.update', $build->id)}}">
+    <form method="post" action="{{route('builds.update', $editBuild->id)}}">
         @csrf
         @method('PUT')
     <div class="form-control">

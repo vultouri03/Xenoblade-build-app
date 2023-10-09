@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('timeError'))
+        <div class="alert alert-danger">
+            {{ session('timeError') }}
+        </div>
+    @endif
+
+
     <table class="table">
         <tr>
             <th>id</th>
@@ -19,7 +26,7 @@
 
                 <td><a href="{{route('builds.show', $build->id)}}" class="btn btn-info">Details</a></td>
 
-                @if($build->user_id === Auth::user()->id)
+                @if($build->user_id === Auth::user()->id || Auth::user()->is_admin === 1)
                     <td><a href="{{route('builds.edit', $build->id)}}" class="btn btn-warning">Update</a></td>
 
                     <td>
@@ -29,7 +36,8 @@
                             <button type="submit" class="btn-danger btn">Delete</button>
                         </form>
                     </td>
-                    <td><a href="{{ route('characters.create', $build->id) }}" class="btn btn-outline-primary">create a new character</a></td>
+                    <td><a href="{{ route('characters.create', $build->id) }}" class="btn btn-outline-primary">create a
+                            new character</a></td>
                 @endif
             </tr>
         @endforeach

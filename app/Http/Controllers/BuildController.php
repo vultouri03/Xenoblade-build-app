@@ -6,9 +6,11 @@ use App\Models\Build;
 use App\Models\Character;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class BuildController extends Controller
 {
+
 
     public function __construct()
     {
@@ -22,7 +24,6 @@ class BuildController extends Controller
     {
 
         //
-
         $builds = Build::all();
         return view('builds.index', compact('builds'));
     }
@@ -33,7 +34,16 @@ class BuildController extends Controller
     public function create()
     {
         //
-        return view('builds.create');
+        date_default_timezone_set("UTC");
+        $creationDate = strtotime(\Auth::user()->created_at);
+        $currentDate = strtotime(date("Y-m-d h:i:s"));
+        if(($currentDate- $creationDate)/(86400) >= 4) {
+            return view('builds.create');
+        } else {
+            return redirect(route("builds.index"))
+                ->with('timeError', 'Your account needs to be five days old!');
+        }
+
     }
 
     /**
@@ -68,7 +78,12 @@ class BuildController extends Controller
     {
         //
         $editBuild = Build::find($build->id);
-        return view('builds.update', compact('editBuild'));
+        if ($editBuild->user_id === \Auth::user()->id || \Auth::user()->is_admin === 1) {
+            return view('builds.update', compact('editBuild'));
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
 
     }
 
@@ -93,12 +108,18 @@ class BuildController extends Controller
     {
         //
         $toBeDeleted = Build::find($build->id);
-        $toBeDeleted->delete();
-        return redirect()->route('builds.index');
+        if ($toBeDeleted->user_id === \Auth::user()->id || \Auth::user()->is_admin === 1) {
+            $toBeDeleted->delete();
+            return redirect()->route('builds.index');
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
+
 
     }
 
-    public function myIndex() {
+    public function myIndex()
+    {
         $builds = Build::where('user_id', '=', \Auth::user()->id)->get();
         return view('builds.index', compact('builds'));
     }
