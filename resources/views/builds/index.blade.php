@@ -8,6 +8,30 @@
     @endif
 
 
+
+    <form action="{{ route('builds.search') }}" method="post" class="form-control">
+        @csrf
+        <div class="form-control">
+            <label for="name">search</label>
+            <input type="text" id="name" name="name" class="form-control">
+        </div>
+        <div class="form-control">
+            <label for="hero_id">Hero</label>
+            <select class="form-select" id="hero_id" name="hero_id">
+                <option disabled selected value> -- select an option -- </option>
+                @foreach(\App\Models\Hero::all() as $hero)
+
+                    <option class="form-select" value="{{$hero->id}}">{{$hero->name}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">search</button>
+        </div>
+    </form>
+
+
+
     <table class="table">
         <tr>
             <th>id</th>
@@ -20,7 +44,7 @@
             <tr>
                 <td>{{$build->id}}</td>
                 <td>{{$build->name}}</td>
-                <td>{{$build->hero}}</td>
+                <td>{{$build->hero->name}}</td>
                 <td>{{$build->created_at}}</td>
                 <td>{{$build->updated_at}}</td>
 

@@ -13,8 +13,13 @@
 
     </div>
     <div class="form-control">
-        <label for="hero">Hero</label>
-            <input type="text" id="hero" name="hero" class="form-control" required>
+        <label for="hero_id">Hero</label>
+        <select class="form-select" id="hero_id" name="hero_id">
+            <option value="">no hero</option>
+            @foreach(\App\Models\Hero::all() as $hero)
+                <option value="{{$hero->id}}">{{$hero->name}}</option>
+            @endforeach
+        </select>
     </div>
         <div>
             <label for="user_id"></label>

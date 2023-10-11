@@ -37,7 +37,7 @@ class BuildController extends Controller
         date_default_timezone_set("UTC");
         $creationDate = strtotime(\Auth::user()->created_at);
         $currentDate = strtotime(date("Y-m-d h:i:s"));
-        if(($currentDate- $creationDate)/(86400) >= 4) {
+        if (($currentDate - $creationDate) / (86400) >= 4) {
             return view('builds.create');
         } else {
             return redirect(route("builds.index"))
@@ -53,7 +53,7 @@ class BuildController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'hero' => 'required|max:255',
+            'hero_id' => 'required|numeric',
         ]);
         Build::create($request->all());
         return redirect()->route('builds.index');
@@ -95,7 +95,7 @@ class BuildController extends Controller
         //
         $request->validate([
             'name' => 'required|max:255',
-            'hero' => 'required|max:255',
+            'hero_id' => 'required|numeric',
         ]);
         Build::update($request->all());
         return redirect()->route('builds.index');
@@ -121,6 +121,19 @@ class BuildController extends Controller
     public function myIndex()
     {
         $builds = Build::where('user_id', '=', \Auth::user()->id)->get();
+        return view('builds.index', compact('builds'));
+    }
+
+    public function search(Request $request)
+    {
+        $data = $request->all();
+        $builds = Build::when(!empty($data['name']), function ($query) use ($data) {
+                return $query->where('name', 'LIKE', "%".$data['name']."%");
+            })
+            ->when(!empty($data['hero_id']), function ($query) use ($data) {
+                return $query->where('hero_id', '=', $data['hero_id']);
+            })->get();
+
         return view('builds.index', compact('builds'));
     }
 
