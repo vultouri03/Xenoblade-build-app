@@ -54,6 +54,7 @@ class BuildController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'hero_id' => 'required|numeric',
+            'description' => 'required|max:65535',
         ]);
         Build::create($request->all());
         return redirect()->route('builds.index');
@@ -77,9 +78,9 @@ class BuildController extends Controller
     public function edit(Build $build)
     {
         //
-        $editBuild = Build::find($build->id);
-        if ($editBuild->user_id === \Auth::user()->id || \Auth::user()->is_admin === 1) {
-            return view('builds.update', compact('editBuild'));
+
+        if ($build->user_id === \Auth::user()->id || \Auth::user()->is_admin === 1) {
+            return view('builds.update', compact('build'));
         } else {
             abort(Response::HTTP_FORBIDDEN);
         }
@@ -97,7 +98,7 @@ class BuildController extends Controller
             'name' => 'required|max:255',
             'hero_id' => 'required|numeric',
         ]);
-        Build::update($request->all());
+        $build->update($request->all());
         return redirect()->route('builds.index');
     }
 
@@ -107,6 +108,7 @@ class BuildController extends Controller
     public function destroy(Build $build)
     {
         //
+
         $toBeDeleted = Build::find($build->id);
         if ($toBeDeleted->user_id === \Auth::user()->id || \Auth::user()->is_admin === 1) {
             $toBeDeleted->delete();
@@ -128,13 +130,25 @@ class BuildController extends Controller
     {
         $data = $request->all();
         $builds = Build::when(!empty($data['name']), function ($query) use ($data) {
-                return $query->where('name', 'LIKE', "%".$data['name']."%");
-            })
+            return $query->where('name', 'LIKE', "%" . $data['name'] . "%")->orwhere('description', 'LIKE', "%" . $data['name'] . "%");
+        })
             ->when(!empty($data['hero_id']), function ($query) use ($data) {
                 return $query->where('hero_id', '=', $data['hero_id']);
             })->get();
 
         return view('builds.index', compact('builds'));
+    }
+
+    public function setActive(Request $request)
+    {
+
+        $data = $request->all();
+        $id = $data['build'];
+        $activate = Build::find($id);
+        $activate->update([
+            'is_active' => $data['status'],
+        ]);
+        return redirect()->route('builds.index');
     }
 
 

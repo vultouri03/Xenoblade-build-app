@@ -26,6 +26,7 @@ Route::resource('builds', \App\Http\Controllers\BuildController::class,);
 Route::resource('characters', \App\Http\Controllers\CharacterController::class,)->except('create');
 Route::get('characters/create/{buildId}', [\App\Http\Controllers\CharacterController::class, 'Create'])->name('characters.create');
 Route::post('builds/search', [\App\Http\Controllers\BuildController::class, 'search'])->name('builds.search');
+Route::post('builds/activate', [\App\Http\Controllers\BuildController::class, 'setActive'])->name('builds.setActive');
 
 Auth::routes();
 Auth::routes(['verify'=>true]);

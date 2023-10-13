@@ -18,7 +18,7 @@
         <div class="form-control">
             <label for="hero_id">Hero</label>
             <select class="form-select" id="hero_id" name="hero_id">
-                <option disabled selected value> -- select an option -- </option>
+                <option disabled selected value> -- select an option --</option>
                 @foreach(\App\Models\Hero::all() as $hero)
 
                     <option class="form-select" value="{{$hero->id}}">{{$hero->name}}</option>
@@ -36,11 +36,15 @@
         <tr>
             <th>id</th>
             <th>name</th>
+            <th>hero</th>
             <th>creation date</th>
             <th>update date</th>
-            <th>hero</th>
+
         </tr>
         @foreach($builds as $build)
+            @if($build->is_active === "active" || Auth::user()->id === $build->user_id)
+
+
             <tr>
                 <td>{{$build->id}}</td>
                 <td>{{$build->name}}</td>
@@ -60,10 +64,27 @@
                             <button type="submit" class="btn-danger btn">Delete</button>
                         </form>
                     </td>
-                    <td><a href="{{ route('characters.create', $build->id) }}" class="btn btn-outline-primary">create a
+
+                    <td>
+                        <form action="{{route('builds.setActive')}}" method="POST">
+                            @csrf
+                            <input type="hidden" id="build" name="build" value="{{$build->id}}">
+                            @if($build->is_active === "active")
+                                <input type="hidden" id="status" name="status" value="inactive">
+                                <button type="submit" class="btn btn-outline-danger">deactivate</button>
+                            @else
+                                <input type="hidden" id="status" name="status" value="active">
+                                <button type="submit" class="btn btn-outline-primary">activate</button>
+                            @endif
+
+
+                        </form>
+                    </td>
+                    <td><a href="{{ route('characters.create', $build->id) }}" class="btn btn-outline-secondary">create a
                             new character</a></td>
                 @endif
             </tr>
+            @endif
         @endforeach
     </table>
     <div class="">

@@ -12,6 +12,8 @@ class Build extends Model
         'name',
         'hero_id',
         'user_id',
+        'description',
+        'is_active',
     ];
 
     public function hero(): BelongsTo
