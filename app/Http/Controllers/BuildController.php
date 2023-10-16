@@ -37,7 +37,7 @@ class BuildController extends Controller
         date_default_timezone_set("UTC");
         $creationDate = strtotime(\Auth::user()->created_at);
         $currentDate = strtotime(date("Y-m-d h:i:s"));
-        if (($currentDate - $creationDate) / (86400) >= 4) {
+        if (count(\App\Models\Favorite::where('user_id', \Auth::user()->id)->get()) >= 1) {
             return view('builds.create');
         } else {
             return redirect(route("builds.index"))
@@ -52,7 +52,7 @@ class BuildController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|min:5',
             'hero_id' => 'required|numeric',
             'description' => 'required|max:65535',
         ]);
