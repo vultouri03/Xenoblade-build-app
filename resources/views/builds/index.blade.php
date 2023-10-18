@@ -14,8 +14,9 @@
         @csrf
         <div class="form-control">
             <label for="name">search</label>
-            <input type="text" id="name" name="name" class="form-control">
+            <input type="text" id="name" name="name" class="form-control" value="{{old('name')}}">
         </div>
+
         <div class="form-control">
             <label for="hero_id">Hero</label>
             <select class="form-select" id="hero_id" name="hero_id">
@@ -26,6 +27,10 @@
                 @endforeach
             </select>
         </div>
+        <div class="form-control btn btn-outline-secondary">
+            <label for="is_favorite" class="form-check-label form-check-inline">favorite?</label>
+            <input type="checkbox" name="is_favorite" id="is_favorite" value="{{old('is_favorite')}}" class="form-check-inline form-check-input">
+        </div>
         <div>
             <button type="submit" class="btn btn-primary">search</button>
         </div>
@@ -33,7 +38,7 @@
 
 
 
-    <table class="table">
+    <table class="table mt-5">
         <tr>
             <th>id</th>
             <th>name</th>

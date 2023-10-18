@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Build;
 use App\Models\Character;
+use App\Models\Favorite;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -129,11 +130,21 @@ class BuildController extends Controller
     public function search(Request $request)
     {
         $data = $request->all();
+        $favorite_id = [];
+        if (!empty($data['is_favorite'])) {
+            $favorite_id = Favorite::where('user_id', '=', \Auth::user()->id)->get('build_id');
+        }
+
         $builds = Build::when(!empty($data['name']), function ($query) use ($data) {
             return $query->where('name', 'LIKE', "%" . $data['name'] . "%")->orwhere('description', 'LIKE', "%" . $data['name'] . "%");
         })
             ->when(!empty($data['hero_id']), function ($query) use ($data) {
                 return $query->where('hero_id', '=', $data['hero_id']);
+            })
+            ->when(!empty($data['is_favorite']), function ($query) use ($favorite_id){
+                    return$query->whereIn('id', $favorite_id);
+
+
             })->get();
 
         return view('builds.index', compact('builds'));
