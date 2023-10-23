@@ -78,7 +78,7 @@
             </div>
             <div class="form-control">
                 <label for="master_skill_3">master_skill_3</label>
-                <input type="text" id="master_skill_3" name="hero" class="form-control" required>
+                <input type="text" id="master_skill_3" name="master_skill_3" class="form-control" required>
             </div>
             <div>
                 <label for="user_id"></label>

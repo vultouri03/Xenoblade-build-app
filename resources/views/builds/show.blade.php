@@ -10,7 +10,7 @@
         <li class="list-group-item">{{$buildDetails->hero->name}}</li>
         <li class="list-group-item">{{$buildDetails->user->name}}</li>
         @foreach($characters as $character)
-            <li class="list-group-item">{{$character->name}}</li>
+            <li class="list-group-item"><a href="{{ route('characters.show', $character->id) }}">{{$character->name}}</a></li>
         @endforeach
 
 
