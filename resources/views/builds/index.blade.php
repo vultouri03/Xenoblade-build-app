@@ -29,7 +29,8 @@
         </div>
         <div class="form-control btn btn-outline-secondary">
             <label for="is_favorite" class="form-check-label form-check-inline">favorite?</label>
-            <input type="checkbox" name="is_favorite" id="is_favorite" value="{{old('is_favorite')}}" class="form-check-inline form-check-input">
+            <input type="checkbox" name="is_favorite" id="is_favorite" value="{{old('is_favorite')}}"
+                   class="form-check-inline form-check-input">
         </div>
         <div>
             <button type="submit" class="btn btn-primary">search</button>
@@ -49,9 +50,6 @@
         </tr>
         @foreach($builds as $build)
 
-
-
-
             @if($build->is_active === "active" || Auth::user()->id === $build->user_id)
 
                 <tr>
@@ -63,33 +61,30 @@
 
                     <td><a href="{{route('builds.show', $build->id)}}" class="btn btn-info">Details</a></td>
 
-                    @if(\App\Models\Favorite::where('build_id', $build->id)
-    ->where('user_id', Auth::user()->id)
-    ->first() === null)
-                        <td>
-                            <form action="{{ route('favorites.store') }}" method="POST">
-                                @csrf
-                                <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
-                                <input type="hidden" id="build_id" name="build_id" value="{{$build->id}}">
-                                <button type="submit" class="btn btn-outline-danger">favorite</button>
-                            </form>
-                        </td>
-                    @else
-                        <td>
-                            <form action="{{ route('favorites.destroy', \App\Models\Favorite::where('build_id', $build->id)
-                    ->where('user_id', Auth::user()->id)
-                    ->first()->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger">unfavorite</button>
-                            </form>
-                        </td>
-                    @endif
-
-
-
 
                     @if($build->user_id === Auth::user()->id || Auth::user()->is_admin === 1)
+                        @if(\App\Models\Favorite::where('build_id', $build->id)
+   ->where('user_id', Auth::user()->id)
+   ->first() === null)
+                            <td>
+                                <form action="{{ route('favorites.store') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
+                                    <input type="hidden" id="build_id" name="build_id" value="{{$build->id}}">
+                                    <button type="submit" class="btn btn-outline-danger">favorite</button>
+                                </form>
+                            </td>
+                        @else
+                            <td>
+                                <form action="{{ route('favorites.destroy', \App\Models\Favorite::where('build_id', $build->id)
+                    ->where('user_id', Auth::user()->id)
+                    ->first()->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-outline-danger">unfavorite</button>
+                                </form>
+                            </td>
+                        @endif
                         <td><a href="{{route('builds.edit', $build->id)}}" class="btn btn-warning">Update</a></td>
 
                         <td>
@@ -125,8 +120,8 @@
         @endforeach
     </table>
     @if(count(\App\Models\Favorite::where('user_id', Auth::user()->id)->get()) >= 1)
-    <div class="">
-        <a href="{{ route('builds.create') }}" class="btn btn-secondary">create a new build</a>
-    </div>
+        <div class="">
+            <a href="{{ route('builds.create') }}" class="btn btn-secondary">create a new build</a>
+        </div>
     @endif
 @endsection

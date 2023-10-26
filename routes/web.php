@@ -29,5 +29,8 @@ Route::get('characters/create/{buildId}', [\App\Http\Controllers\CharacterContro
 Route::post('builds/search', [\App\Http\Controllers\BuildController::class, 'search'])->name('builds.search');
 Route::post('builds/activate', [\App\Http\Controllers\BuildController::class, 'setActive'])->name('builds.setActive');
 
+Route::resource('users', \App\Http\Controllers\UserController::class);
+Route::post('admin/makeAdmin', [\App\Http\Controllers\UserController::class, 'makeAdmin'])->name('admin.makeAdmin');
+
 Auth::routes();
 Auth::routes(['verify'=>true]);
