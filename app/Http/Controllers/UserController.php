@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -56,6 +61,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         //
+        if ($user->id === \Auth::user()->id || \Auth::user()->is_admin === 1) {
+            return view('user.update', compact('user'));
+        } else {
+            abort(Response::HTTP_FORBIDDEN);
+        }
     }
 
     /**
@@ -64,6 +74,12 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        $request->validate([
+            'name' => 'required|max:255',
+
+        ]);
+        $user->update($request->all());
+        return redirect()->route('users.show', $user->id);
     }
 
     /**

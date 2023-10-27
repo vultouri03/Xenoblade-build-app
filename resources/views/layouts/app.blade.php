@@ -58,7 +58,11 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{route('mybuilds')}}">builds</a>
+                                    <a class="dropdown-item" href="{{route('mybuilds')}}">my builds</a>
+                                    <a href="{{route('users.show', Auth::user()->id)}}" class="dropdown-item">User info</a>
+                                    @if(Auth::user()->is_admin === 1)
+                                        <a href="{{route('users.index')}}" class="dropdown-item">Admin panel</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
